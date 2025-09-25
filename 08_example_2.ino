@@ -48,7 +48,7 @@ void loop() {
     }
   }
 
-  // LED 밝기 제어 (PWM)
+  // LED 밝기 제어
   analogWrite(PIN_LED, brightness);
 
   // output the distance to the serial port
