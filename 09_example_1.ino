@@ -3,14 +3,14 @@
  * HC-SR04 Ultrasonic Sensor
  */
 
-// ---------------------- 핀 정의 ----------------------
+// 핀 정의 
 #define PIN_TRIG 12         // Trig 핀
 #define PIN_ECHO 13         // Echo 핀
 #define PIN_LED 9           // LED 핀
-#define TRIG PIN_TRIG       // 코드 가독성을 위한 별칭
-#define ECHO PIN_ECHO       // 코드 가독성을 위한 별칭
+#define TRIG PIN_TRIG       
+#define ECHO PIN_ECHO       
 
-// ---------------------- 상수 정의 ----------------------
+// 상수 정의 
 #define SND_VEL 346.0       // sound velocity at 24 celsius degree (unit: m/sec)
 #define INTERVAL 25         // sampling interval (unit: msec)
 #define PULSE_DURATION 10   // minimum pulse duration (unit: usec)
@@ -21,22 +21,22 @@
 #define TIMEOUT ((INTERVAL / 2) * 1000.0) // maximum echo waiting time (unit: usec)
 #define SCALE (0.001 * 0.5 * SND_VEL)     // coefficient to convert duration to distance
 
-// ------------------- 중위수 필터 변수 -------------------
+// 중위수 필터 변수 
 #define N_MEDIAN 5                    // 윈도우 크기 N (샘플 개수)
 float dist_samples[N_MEDIAN];           // N개의 raw 거리를 저장할 배열
 int sample_index = 0;                    // 순환 버퍼의 현재 인덱스
 int sample_count = 0;                    // 현재까지 저장된 유효 샘플 수
 
-// ---------------------- 상태 변수 ----------------------
+// 상태 변수 
 unsigned long last_sampling_time = 0;   // unit: msec
 float dist_median;
 
-// ---------------------- 함수 선언 ----------------------
+// 함수 선언
 float getDistance_mm(void);
 void bubbleSort(float arr[], int n);
 float calculateMedian(float arr[], int n);
 
-// ---------------------- 1. 측정 함수 ----------------------
+//  1. 측정 함수 
 float getDistance_mm(void) {
     digitalWrite(TRIG, HIGH);
     delayMicroseconds(PULSE_DURATION);
@@ -45,7 +45,7 @@ float getDistance_mm(void) {
     return pulseIn(ECHO, HIGH, TIMEOUT) * SCALE; // unit: mm
 }
 
-// ---------------------- 2. 정렬 함수 (버블 정렬) ----------------------
+// 2. 정렬 함수 (버블 정렬) 
 void bubbleSort(float arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
@@ -59,7 +59,7 @@ void bubbleSort(float arr[], int n) {
     }
 }
 
-// ---------------------- 3. 중위수 계산 함수 ----------------------
+// 3. 중위수 계산 함수
 float calculateMedian(float arr[], int n) {
     if (n == 0) return 0.0;
 
@@ -77,7 +77,7 @@ float calculateMedian(float arr[], int n) {
     }
 }
 
-// ---------------------- 4. SETUP 함수 ----------------------
+// 4. SETUP 함수 
 void setup() {
     pinMode(PIN_LED, OUTPUT);
     pinMode(PIN_TRIG, OUTPUT);
@@ -93,7 +93,7 @@ void setup() {
     last_sampling_time = millis();
 }
 
-// ---------------------- 5. LOOP 함수 ----------------------
+// 5. LOOP 함수 
 void loop() {
     float dist_raw;
 
